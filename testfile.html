@@ -1,0 +1,259 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>testfile</title>
+<link rel="stylesheet" href="main1.css">
+</head>
+
+<body>
+<form id="form1" method="post">
+<div id="div1">
+<h1> Registration
+</h1>
+<h2>__________________________________________________________________________________</h2>
+</div>
+
+
+<div id="main">
+<div id="div2">
+    <div id="blk" class = "blkhide">
+    <div id="pswd_info">
+        <h4>PASSWORD REQUIREMENT:</h4>
+        <ul>
+            <li id="letter" class="invalid">At least <strong>one lower case and one upper case letter</strong></li>
+                
+            <li id="number" class="invalid">At least <strong>one number</strong></li>
+            
+            <li id="length" class="invalid">Be at least <strong>8 characters</strong></li>
+            <li id="special" class="invalid">At least <strong> one special character (#,*,$,!,%)</strong></li>
+            <li id="pwd" class="invalid">Password <strong>not be same as User ID</strong></li>
+            <li id="alpha" class="invalid">Atleast <strong>4 Alpha characters</strong></li>
+            <progress id="progress3" max="100" value="0"></progress>
+        </ul>
+    </div>
+   </div>
+    
+<table>
+<tr>
+<td><b> User ID:</b> </td><td><input type="text" name="name" id="uname" autofocus></td></tr><br>
+
+<tr><td><b> Password:</b></td><td><input type="password" id="pass1" name="password" placeholder="Enter your Password" required onkeyUp="validatepassword()">&nbsp;&nbsp;&nbsp;</td></tr><br>
+
+<tr><td><b> Verify Password:</b></td><td> <input type="password" id="pass2" name="password1" placeholder="Renter the password" required onkeyUp="matchpassword()"> <br><p id="progress1"></p></td></tr><br>
+
+<tr><td><b> Email Address:</b></td><td> <input type="email" id="mail1" name="emailadd" placeholder="Enter your email address" required onKeyUp="matchemail()"></td></tr><br>
+
+<tr><td><b> Verify Email Address:</b></td><td> <input type="email" id="mail2" name="emailadd1" placeholder="Renter email" required onkeyUp="matchemail()"> <br><p id="progress2"></p></td></tr><br>
+
+<tr><td><b> Security Question:</b></td><td> <select>
+<option value="option1-" > - </option>
+<option value="Favourite sweet" id="option1"> Favourite sweet</option>
+<option value="Favourite car"> Favourite car</option>
+<option value="Favourite city"> Favourite city</option>
+</select></td></tr><br>
+
+<tr><td><b> Answer: </b> </td><td><input type="text" id="ans1" name="answer" required></td></tr><br>
+
+<tr><td><b> Security Question 2: </b></td><td> <select>
+<option value="option2-" > - </option>
+<option value="Mothers name" id="option2"> Mothers name</option>
+<option value="Fathers name"> Fathers name</option>
+<option value="Place of birth"> Place of birth</option></select></td></tr><br>
+
+<tr><td><b> Answer 2: </b></td><td> <input type="text" id="ans2" name="answer1" required></td></tr><br>
+
+<tr><td><b> Mobile </b></td><td><input type="tel" max="10" id="mob" name="mobile"></td></tr><br>
+
+<tr><td><b> Address </b></td><td><textarea rows="3" cols="50" name="address" id="add1"></textarea></td></tr><br>
+</table>
+
+
+<script>
+
+
+function loadXMLDoc()
+{
+var xmlhttp;
+var uname = document.getElementById("uname");
+var pass = document.getElementById("pass1");
+var mail = document.getElementById("mail1");
+var que1 = document.getElementById("option1");
+var answ1 = document.getElementById("ans1");
+var que2 = document.getElementById("option2");
+var answ2 = document.getElementById("ans2");
+var mobi = document.getElementById("mob");
+var are = document.getElementById("area1");
+var addre = document.getElementById("add1");
+
+if (window.XMLHttpRequest)
+  {
+  xmlhttp=new XMLHttpRequest();
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("div4").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("POST","connection.php",true);
+xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp.send("name="+uname.value+"&emailadd="+mail.value+"&password="+pass.value+"&question1="+que1.value+"&answer1="+answ1.value+"&question2="+que2.value+"&answer2="+answ2.value+"&mobile="+mobi.value+"&address="+addre.value+"&area="+are.value);
+}
+
+
+var count1;
+
+function validatepassword(){
+    
+    if(document.getElementById("blk").className =="blkhide"){
+        document.getElementById("blk").classList.remove('blkhide');
+        document.getElementById("blk").classList.add('blkshow');
+    }
+
+	count1=0;
+	var c = document.getElementById("pass1");
+	if(pass1.value.length>6) //Length greater than 6
+    {
+       document.getElementById("length").classList.remove('invalid');
+       document.getElementById("length").classList.add('valid');
+	count1++;
+    }else{
+        document.getElementById("length").classList.remove('valid');
+        document.getElementById("length").classList.add('invalid');
+        
+    }
+    
+	if (( pass1.value.match(/[a-z]/)) && (pass1.value.match(/[A-Z]/)))//1 Caps and 1 small
+    {
+        document.getElementById("letter").classList.remove('invalid');
+        document.getElementById("letter").classList.add('valid');
+        count1++;
+    }else{
+        document.getElementById("letter").classList.remove('valid');
+        document.getElementById("letter").classList.add('invalid');
+      
+    }
+    
+    if ( pass1.value.match(/[0-9]/) ) // One numeric value
+    {
+        document.getElementById("number").classList.remove('invalid');
+        document.getElementById("number").classList.add('valid');
+        count1++;
+    }else{
+        document.getElementById("number").classList.remove('valid');
+        document.getElementById("number").classList.add('invalid');
+        
+    }
+    
+	if ( pass1.value.match(/[.,!,@,#,$,%,^,&,*,?,_,~,-,(,)]/) ) //One Symbol
+    {
+        document.getElementById("special").classList.remove('invalid');
+        document.getElementById("special").classList.add('valid');
+        count1++;
+    }else{
+        document.getElementById("special").classList.remove('valid');
+        document.getElementById("special").classList.add('invalid');
+        
+    }
+    
+   if ( pass1.value.localeCompare(uname.value) ) //password should not be same as user name
+    {
+        document.getElementById("pwd").classList.remove('invalid');
+        document.getElementById("pwd").classList.add('valid');
+        count1++;
+            }else{
+        
+        document.getElementById("pwd").classList.remove('valid');
+        document.getElementById("pwd").classList.add('invalid');
+       
+    }
+            
+    if  ( pass1.value.match(/[a-zA-Z]{4,}/) )// 4 Alpha characters
+    {
+        document.getElementById("alpha").classList.remove('invalid');
+        document.getElementById("alpha").classList.add('valid');
+        count1++;
+    }else{
+                
+        document.getElementById("alpha").classList.remove('valid');
+        document.getElementById("alpha").classList.add('invalid');
+        
+    }
+            
+	
+    if(count1==0)
+    {
+        progress3.value="0";
+    }
+    if(count1==1)
+    {
+        progress3.value="18";
+    }
+    if(count1==2)
+    {
+        progress3.value="36";
+    }
+    if(count1==3)
+    {
+        progress3.value="54";
+    }
+    if(count1==4)
+    {
+        progress3.value="71";
+    }
+    if(count1==5)
+    {
+        progress3.value="85";
+    }
+    
+    if(count1==6)
+    {
+        progress3.value="100";
+    }
+    
+}
+
+function matchpassword() {
+    
+    if(count1==6 && document.getElementById("blk").className =="blkshow"){
+        document.getElementById("blk").classList.remove('blkshow');
+        document.getElementById("blk").classList.add('blkhide');
+    }
+    
+    var y = document.getElementById("pass1");
+    var z = document.getElementById("pass2");
+    if((pass1.value == pass2.value) && (pass1.value !==""))
+    {document.getElementById("progress1").innerHTML = "Passwords match";
+    }
+    if(pass1.value!== pass2.value)
+    {document.getElementById("progress1").innerHTML = "Passwords not matching";
+    }
+}
+function matchemail() {
+    var a = document.getElementById("mail1");
+    var b = document.getElementById("mail2");
+    if(mail1.value == mail2.value && (mail1.value !==""))
+    {document.getElementById("progress2").innerHTML = "Email is matching";
+    }
+    if(mail1.value!== mail2.value)
+    {document.getElementById("progress2").innerHTML = "Email is not matching";
+    }
+}
+
+
+    </script>
+</div>
+<div id="div3">
+<b>Areas you may be interested in, please select one or more:</b><br>
+<textarea rows="5" cols="50" name="area" id="area1" wrap="physical"></textarea><br><br>
+<input type="button" value="Register" onClick="loadXMLDoc()">
+<input type="submit" value="Cancel">
+<div id="div4"></div>
+
+</div>
+</div>
+</form>
+</body>
+</html>
